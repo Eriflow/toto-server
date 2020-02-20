@@ -3,24 +3,23 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes')
-  , todo = require('./routes/todo')
-  , http = require('http')
-  , path = require('path');
+const express = require('express');
+const routes = require('./routes');
+const todo = require('./routes/todo');
+const http = require('http');
+const path = require('path');
 
-var cors = require('cors');
+const cors = require('cors');
 
-var app = express();
+const app = express();
 
-
-
-app.configure(function(){
+app.configure(function() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/public');
   app.engine('.html', require('ejs').renderFile);
   app.set('view engine', 'html');
-app.use(cors());
+
+  app.use(cors());
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -29,7 +28,7 @@ app.use(cors());
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
+app.configure('development', function() {
   app.use(express.errorHandler());
 });
 
@@ -43,6 +42,6 @@ app.put('/api/todos/:id', todo.updateTodo);
 app.delete('/api/todos/:id', todo.deleteTodo);
 
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
 });
